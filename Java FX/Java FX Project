@@ -1,0 +1,98 @@
+package adj006;
+
+//Antonio Jusino
+import javafx.application.Application;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
+
+public class Assignment6 {
+
+	public static class Exercise_16 extends Application {
+		
+		//Creating list view
+	    ListView<String> ListV = new ListView<>();
+
+	    
+	    public void start(Stage primaryStage) {
+	    	try {
+	    	//Setting title of stage
+	    	primaryStage.setTitle("Assignment6");
+	    	
+	    	//Setting up the pane 
+	        HBox topPane = new HBox();
+	        topPane.setPadding(new Insets(3));
+	        topPane.setSpacing(5);
+	        topPane.setAlignment(Pos.CENTER);
+	        
+	        //Using this to configure single and multiple, with
+	        //selection mode
+	        ComboBox<SelectionMode> cbSelectionMode = new ComboBox<>();
+	        cbSelectionMode.getItems().addAll(SelectionMode.SINGLE, SelectionMode.MULTIPLE);
+	        cbSelectionMode.setValue(cbSelectionMode.getItems().get(0));
+	        cbSelectionMode.setOnAction(e-> ListV.getSelectionModel()
+	                .setSelectionMode(cbSelectionMode.getValue()));
+	        Label lblSelectionMode = new Label("Selection Mode:", cbSelectionMode);
+	        lblSelectionMode.setContentDisplay(ContentDisplay.RIGHT);
+	        
+	        topPane.getChildren().addAll(lblSelectionMode);
+	        
+	        //Setting up pane with the selections and size of pane
+	        Pane centerPane = new Pane();
+	        ListV.getItems().addAll("China", "Japan", "Korea", "India",
+	                "Malaysia", "Vietnam");
+	        centerPane.getChildren().addAll(ListV);
+	        ListV.setPrefHeight(ListV.getItems().size() * 26 + 2);
+
+	        //Setting label for no items selected
+	        Label lblSelectedItem = new Label("No Selected Items");
+	        lblSelectedItem.setPadding(new Insets(5));
+	        
+	        //Creating border pane
+	        BorderPane borderPane = new BorderPane(centerPane);
+	        borderPane.setTop(topPane);
+	        borderPane.setBottom(lblSelectedItem);
+	        
+	        //Setting this to get selected items
+	        ListV.getSelectionModel().selectedItemProperty()
+	                .addListener((observable, oldValue, newValue) -> {
+	            lblSelectedItem.setText(getItems());
+	            primaryStage.sizeToScene();
+	        });
+	        //Setting up primary
+	        primaryStage.setScene(new Scene(borderPane));
+	        primaryStage.show();
+	    }
+	    catch (RuntimeException e) {
+		   System.out.print("Error running code");
+	    }
+	   }
+	    //Using this method to retrieve multiple selected items
+	    //Not working for me however
+	    public String getItems() {
+	        ObservableList<String> selectList = ListV.getSelectionModel().getSelectedItems();
+
+	        if (selectList.size() == 0) return "No Selected Items";
+	        if (selectList.size() == 1) return "Current selected item " + selectList.get(0);
+
+	        String text = "The selected items are ";
+	        for (String a : selectList) {
+	            text += a + " ";
+	        }
+	        return text;
+	    }
+	    
+	
+	    //Using main just to run application
+	    public static void main(String[] args) {
+	        Application.launch(args);
+	    }
+	}
+
+}
