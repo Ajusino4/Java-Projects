@@ -1,0 +1,36 @@
+import java.util.Scanner; 
+
+public class ComissionRate {
+
+	public static void main(String[] args) {
+		double salesAmount = 0;
+		Scanner input = new Scanner (System.in);
+		double u = input.nextDouble();
+		
+		System.out.print("The sales amount is: " + u );
+		
+		System.out.printf("Minimum sales to earn $30,000: $%.0f\n", salesAmount);
+		input.close();
+	}
+
+	public static double computeCommission (double salesAmount) {
+		double commissionNeeded = 30000;
+		double commission = 0;
+		do {
+		
+			if (salesAmount > 0) {
+			commission += 0.08 * 5000;
+			}
+		
+			if (salesAmount > 5000) {
+			commission += 0.10 * 5000;
+			}
+			if (salesAmount > 10000) {
+			commission += 0.12 * 10000;
+			}
+		return salesAmount;
+		}
+		while (commission < commissionNeeded);
+	
+	}	
+}
